@@ -20,13 +20,11 @@ public class MainActivity extends AppCompatActivity {
                 "perronegro@","445"));
         dao.insert(new Contacto(0, "perroblanco",
                 "perroblanco@","544"));
-         for (Contacto c : dao.getAll()){
-             Toast.makeText(this,
-                     c.usuario,
-                     Toast.LENGTH_SHORT).show();
-         }
+        for (Contacto c : dao.getAll()){
+            Toast.makeText(this, c.usuario, Toast.LENGTH_SHORT).show();
+        }
 
-         lv = findViewById(R.id.lv);
+        lv = findViewById(R.id.lv);
 
         SimpleCursorAdapter adp =
                 new SimpleCursorAdapter(

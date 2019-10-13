@@ -5,15 +5,24 @@ import java.util.Date;
 public  class Contacto {
     int id;
     String usuario;
-            String email;
-            String tel;
-            Date fecNac;
+    String email;
+    String tel;
+    Date fecNac;
 
     public Contacto(int id, String usuario, String email, String tel) {
         this.id = id;
         this.usuario = usuario;
         this.email = email;
         this.tel = tel;
+        fecNac = new Date();
+    }
+
+    public Contacto(int id, String usuario, String email, String tel, Date fecNac) {
+        this.id = id;
+        this.usuario = usuario;
+        this.email = email;
+        this.tel = tel;
+        this.fecNac = fecNac;
     }
 
     public int getId() {

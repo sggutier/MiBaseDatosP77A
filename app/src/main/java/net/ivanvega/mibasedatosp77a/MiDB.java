@@ -6,8 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class MiDB
-        extends SQLiteOpenHelper {
+public class MiDB extends SQLiteOpenHelper {
 
 
     private String SCRIPT_DB = "create table Contactos (" +
