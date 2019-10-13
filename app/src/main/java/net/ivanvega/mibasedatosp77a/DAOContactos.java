@@ -8,12 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
 class DAOContactos {
-    private static final SimpleDateFormat formFecha = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
     final SQLiteDatabase _sqLiteDatabase;
     final Context ctx;
 
@@ -42,6 +41,20 @@ class DAOContactos {
                 null, contentValues);
     }
 
+    public Contacto inflaCursor(Cursor c) {
+        Contacto contacto = new Contacto(c.getInt(0), c.getString(1),
+                c.getString(2), c.getString(3));
+        String fecha = c.getString(4);
+        if(fecha != null) {
+            try {
+                contacto.setFecNac(Date.valueOf(fecha));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return contacto ;
+    }
+
     public List<Contacto> getAll (){
         List<Contacto> lst = null;
 
@@ -57,17 +70,7 @@ class DAOContactos {
         if (c.moveToFirst() ){
            lst = new ArrayList<>();
            do {
-              Contacto contacto =
-                      new Contacto(c.getInt(0), c.getString(1),
-                              c.getString(2), c.getString(3));
-              String fecha = c.getString(4);
-              if(fecha != null) {
-                  try {
-                      contacto.setFecNac(formFecha.parse(fecha));
-                  } catch (ParseException e) {
-                      e.printStackTrace();
-                  }
-              }
+              Contacto contacto = inflaCursor(c);
               lst.add(contacto);
 
            }while(c.moveToNext());

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MiBaseDatosP77A</string>
+    <string name="usuario">Usuario</string>
+    <string name="email">E-Mail</string>
+    <string name="telefono">Teléfono</string>
+    <string name="fechaNac">Fecha Nac.</string>
 </resources>
