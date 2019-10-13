@@ -41,6 +41,10 @@ class DAOContactos {
                 null, contentValues);
     }
 
+    public void delete(final int id) {
+        _sqLiteDatabase.delete(MiDB.TABLE_NAME_CONTACTOS, MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + id, null);
+    }
+
     public Contacto inflaCursor(Cursor c) {
         Contacto contacto = new Contacto(c.getInt(0), c.getString(1),
                 c.getString(2), c.getString(3));

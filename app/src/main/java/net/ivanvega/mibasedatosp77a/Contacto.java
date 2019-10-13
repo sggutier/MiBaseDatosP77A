@@ -6,11 +6,11 @@ import android.os.Parcelable;
 import java.sql.Date;
 
 class Contacto implements Parcelable {
-    int id;
-    String usuario;
-    String email;
-    String tel;
-    Date fecNac;
+    private int id;
+    private String usuario;
+    private String email;
+    private String tel;
+    private Date fecNac;
 
     public Contacto(int id, String usuario, String email, String tel) {
         this.id = id;

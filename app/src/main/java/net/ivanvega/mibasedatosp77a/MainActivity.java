@@ -1,9 +1,11 @@
 package net.ivanvega.mibasedatosp77a;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteCursor;
@@ -17,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
     private ListView lv;
@@ -42,6 +46,21 @@ public class MainActivity extends AppCompatActivity {
                                           ((AppCompatActivity) context).startActivityForResult(intent, pos+1);
                                       }
                                   });
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                final Contacto contacto = dao.inflaCursor((Cursor) lv.getItemAtPosition(pos));
+                Snackbar.make(view, "¿Estás seguro de borrar a " + contacto.getUsuario() + "?", Snackbar.LENGTH_LONG)
+                    .setAction("Si", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dao.delete(contacto.getId());
+                            recargaAdaptador();
+                        }
+                    }).show();
+                return true;
+            }
+        });
 
     }
 
