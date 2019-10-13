@@ -6,16 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class MiDB extends SQLiteOpenHelper {
+class MiDB extends SQLiteOpenHelper {
 
-
-    private String SCRIPT_DB = "create table Contactos (" +
-            "_id integer primary key autoincrement," +
-            "usuario text not null," +
-            "email text not null," +
-            "tel text not null," +
-            "fecNacimiento date);"
-            ;
 
     public static final String[] COLUMNS_NAME_CONTACTO =
             {
@@ -34,6 +26,12 @@ public class MiDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String SCRIPT_DB = "create table Contactos (" +
+                "_id integer primary key autoincrement," +
+                "usuario text not null," +
+                "email text not null," +
+                "tel text not null," +
+                "fecNacimiento date);";
         sqLiteDatabase.execSQL(SCRIPT_DB);
     }
 

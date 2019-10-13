@@ -2,7 +2,7 @@ package net.ivanvega.mibasedatosp77a;
 
 import java.util.Date;
 
-public  class Contacto {
+class Contacto {
     int id;
     String usuario;
     String email;

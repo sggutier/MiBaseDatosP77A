@@ -8,7 +8,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    ListView lv;
+    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

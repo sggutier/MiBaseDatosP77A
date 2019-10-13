@@ -5,18 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class DAOContactos {
+class DAOContactos {
     private static final SimpleDateFormat formFecha = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
-
-    SQLiteDatabase _sqLiteDatabase;
-    Context ctx;
+    final SQLiteDatabase _sqLiteDatabase;
+    final Context ctx;
 
     public DAOContactos(Context ctx) {
         this.ctx = ctx;
@@ -24,7 +22,7 @@ public class DAOContactos {
                 new MiDB(ctx).getWritableDatabase();
     }
 
-    public long insert(Contacto contacto){
+    public void insert(Contacto contacto){
         ContentValues contentValues
                 = new ContentValues();
 
@@ -37,7 +35,7 @@ public class DAOContactos {
         contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[4],
                 contacto.getFecNac().toString());
 
-        return  _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
+        _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
                 null, contentValues);
 
     }
@@ -55,7 +53,7 @@ public class DAOContactos {
                 null);
 
         if (c.moveToFirst() ){
-           lst = new ArrayList<Contacto>();
+           lst = new ArrayList<>();
            do {
               Contacto contacto =
                       new Contacto(c.getInt(0), c.getString(1),
@@ -72,12 +70,14 @@ public class DAOContactos {
 
            }while(c.moveToNext());
         }
+        c.close();
+
         return  lst;
 
     }
 
     public Cursor getAllCursor (){
-        Cursor c = _sqLiteDatabase.query(MiDB.TABLE_NAME_CONTACTOS,
+        return _sqLiteDatabase.query(MiDB.TABLE_NAME_CONTACTOS,
                 MiDB.COLUMNS_NAME_CONTACTO,
                 null,
                 null,
@@ -85,12 +85,10 @@ public class DAOContactos {
                 null,
                 null,
                 null);
-        return  c;
-
     }
 
     public Cursor getAllByUsuario(String criterio){
-        Cursor c = _sqLiteDatabase.query(
+        return _sqLiteDatabase.query(
                 MiDB.TABLE_NAME_CONTACTOS,
                 MiDB.COLUMNS_NAME_CONTACTO,
                 "usuario like %?%",
@@ -99,7 +97,6 @@ public class DAOContactos {
                 null,null
 
         );
-        return c;
     }
 
 }
