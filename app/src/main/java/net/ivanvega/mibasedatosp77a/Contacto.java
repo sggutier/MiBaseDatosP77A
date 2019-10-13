@@ -14,7 +14,6 @@ class Contacto {
         this.usuario = usuario;
         this.email = email;
         this.tel = tel;
-        fecNac = new Date();
     }
 
     public Contacto(int id, String usuario, String email, String tel, Date fecNac) {

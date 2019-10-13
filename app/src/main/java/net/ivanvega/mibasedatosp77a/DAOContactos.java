@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,12 +33,13 @@ class DAOContactos {
                 contacto.getEmail());
         contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[3],
                 contacto.getTel());
-        contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[4],
-                contacto.getFecNac().toString());
+        Date fecNac = contacto.getFecNac();
+        if(fecNac != null) {
+            contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[4], fecNac.toString());
+        }
 
         _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
                 null, contentValues);
-
     }
 
     public List<Contacto> getAll (){
