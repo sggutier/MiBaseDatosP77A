@@ -97,14 +97,15 @@ class DAOContactos {
     }
 
     public Cursor getAllByUsuario(String criterio){
+        if(criterio.isEmpty())
+            return getAllCursor();
         return _sqLiteDatabase.query(
                 MiDB.TABLE_NAME_CONTACTOS,
                 MiDB.COLUMNS_NAME_CONTACTO,
-                "usuario like %?%",
-                new String[]{criterio},
+                "usuario like '%" + criterio + "%'",
+                null,
                 null,
                 null,null
-
         );
     }
 

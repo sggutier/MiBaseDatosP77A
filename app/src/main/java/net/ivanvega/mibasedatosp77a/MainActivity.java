@@ -71,14 +71,26 @@ public class MainActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.menu_buscar);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setMaxWidth(android.R.attr.width);
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextChange(String query) {
+                        recargaAdaptadorConCursor(dao.getAllByUsuario(query));
+                        return false;
+                    }
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+                });
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void recargaAdaptador() {
+    private void recargaAdaptadorConCursor(Cursor c) {
         adp = new SimpleCursorAdapter(
                 this,
                 android.R.layout.simple_list_item_2,
-                dao.getAllCursor(),
+                c,
                 new String[]{"usuario","email"},
                 new int[]{android.R.id.text1, android.R.id.text2
                 },
@@ -86,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
 
         );
         lv.setAdapter(adp);
+    }
+
+    private void recargaAdaptador() {
+        recargaAdaptadorConCursor(dao.getAllCursor());
     }
 
     public void anadeUsuario(View view) {
