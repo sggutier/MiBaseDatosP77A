@@ -22,9 +22,8 @@ class DAOContactos {
                 new MiDB(ctx).getWritableDatabase();
     }
 
-    public void insert(Contacto contacto){
-        ContentValues contentValues
-                = new ContentValues();
+    private ContentValues createContentValues(Contacto contacto) {
+        ContentValues contentValues = new ContentValues();
 
         contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[1],
                 contacto.getUsuario());
@@ -37,12 +36,20 @@ class DAOContactos {
             contentValues.put(MiDB.COLUMNS_NAME_CONTACTO[4], fecNac.toString());
         }
 
+        return contentValues;
+    }
+
+    public void insert(Contacto contacto){
         _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
-                null, contentValues);
+                null, createContentValues(contacto));
     }
 
     public void delete(final int id) {
         _sqLiteDatabase.delete(MiDB.TABLE_NAME_CONTACTOS, MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + id, null);
+    }
+
+    public void update(final Contacto contacto) {
+        _sqLiteDatabase.update(MiDB.TABLE_NAME_CONTACTOS, createContentValues(contacto), MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + contacto.getId(), null);
     }
 
     public Contacto inflaCursor(Cursor c) {

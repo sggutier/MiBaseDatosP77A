@@ -20,13 +20,14 @@ class Contacto implements Parcelable {
     }
 
     public Contacto(String usuario, String email, String tel) {
-        this.id = id;
+        this.id = 0;
         this.usuario = usuario;
         this.email = email;
         this.tel = tel;
     }
 
     public Contacto(String usuario, String email, String tel, Date fecNac) {
+        this.id = 0;
         this.usuario = usuario;
         this.email = email;
         this.tel = tel;
@@ -34,6 +35,7 @@ class Contacto implements Parcelable {
     }
 
     protected Contacto(Parcel in) {
+        id = in.readInt();
         usuario = in.readString();
         email = in.readString();
         tel = in.readString();
@@ -99,6 +101,7 @@ class Contacto implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel sal, int flags) {
+        sal.writeInt(this.id);
         sal.writeString(usuario);
         sal.writeString(email);
         sal.writeString(tel);

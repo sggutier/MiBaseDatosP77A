@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
                                           Context context = view.getContext();
                                           Cursor cursor = (Cursor) lv.getItemAtPosition(pos);
                                           Intent intent = new Intent(context, ContactoActivity.class);
-                                          intent.putExtra("Creacion", dao.inflaCursor(cursor));
-                                          ((AppCompatActivity) context).startActivityForResult(intent, pos+1);
+                                          Contacto con = dao.inflaCursor(cursor);
+                                          intent.putExtra("Creacion", con);
+                                          ((AppCompatActivity) context).startActivityForResult(intent, con.getId() + 1);
                                       }
                                   });
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -124,9 +125,8 @@ public class MainActivity extends AppCompatActivity {
                     dao.insert(con);
                 }
                 else {
-                    // TODO: Añadir codigo para hacer actualizaciones
                     con.setId(requestCode-1);
-                    dao.insert(con);
+                    dao.update(con);
                 }
             }
             else {
