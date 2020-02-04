@@ -43,14 +43,10 @@ public class MiProveedorContenido extends ContentProvider {
     }
 
 
-    public MiProveedorContenido(Context ctx){
-        _ctx = ctx;
-    }
-
     @Override
     public boolean onCreate() {
 
-        _sqliteDB = new MiDB(_ctx).getWritableDatabase();
+        _sqliteDB = new MiDB(this.getContext()).getWritableDatabase();
 
         return false;
     }
@@ -59,6 +55,12 @@ public class MiProveedorContenido extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri,
                         @Nullable String[] projection,
+
+
+
+
+
+
                         @Nullable String s,
                         @Nullable String[] strings1,
                         @Nullable String s1) {

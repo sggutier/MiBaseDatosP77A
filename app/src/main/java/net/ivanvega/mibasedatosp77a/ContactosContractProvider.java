@@ -8,10 +8,12 @@ public class ContactosContractProvider {
 
 
     public static final  String [] PROJECTION_CONTACTOS
-            = MiDB.COLUMNS_NAME_CONTACTO;
+            = {
+            "_id", "usuario", "email", "tel", "fecNacimiento"
+    };
 
-    public static final  String FIELD_ID = MiDB.COLUMNS_NAME_CONTACTO[0];
-    public static final  String FIELD_USUARIO = MiDB.COLUMNS_NAME_CONTACTO[1];
-    public static final  String FIELD_EMAIL = MiDB.COLUMNS_NAME_CONTACTO[2];
+    public static final  String FIELD_ID = "_id";
+    public static final  String FIELD_USUARIO = "usuario";
+    public static final  String FIELD_EMAIL = "email";
 
 }

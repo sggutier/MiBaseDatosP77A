@@ -31,25 +31,9 @@ public class MainActivity extends AppCompatActivity {
                      Toast.LENGTH_SHORT).show();
          }
 
-         txt = findViewById(R.id.txt);
+
          lv = findViewById(R.id.lv);
 
-         txt.addTextChangedListener(new TextWatcher() {
-             @Override
-             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                 Log.i("beforeTextChanged", "beforeTextChanged");
-             }
-
-             @Override
-             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                 Log.i("onTextChanged", "onTextChanged");
-             }
-
-             @Override
-             public void afterTextChanged(Editable editable) {
-                 Log.i("afterTextChanged", "afterTextChanged");
-             }
-         });
 
         SimpleCursorAdapter adp =
                 new SimpleCursorAdapter(
