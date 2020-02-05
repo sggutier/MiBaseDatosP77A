@@ -56,14 +56,9 @@ public class MiProveedorContenido extends ContentProvider {
     public Cursor query(@NonNull Uri uri,
                         @Nullable String[] projection,
 
-
-
-
-
-
-                        @Nullable String s,
-                        @Nullable String[] strings1,
-                        @Nullable String s1) {
+                        @Nullable String selection,
+                        @Nullable String[] selectionargs,
+                        @Nullable String orderby) {
 
         Cursor c  = null;
 
