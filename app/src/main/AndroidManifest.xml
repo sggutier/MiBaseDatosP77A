@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="net.ivanvega.mibasedatosp77a"
+    package="net.ivanvega.consoomer"
     tools:ignore="GoogleAppIndexingWarning">
 
     <application
@@ -12,21 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactoActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="net.ivanvega.consoomer.ContactoActivity" />
+        <activity android:name="net.ivanvega.consoomer.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:authorities="net.ivanvega.mibasedatosp77a.provider"
-            android:name=".MiProveedorContenido"
-            android:exported="true"
-            android:enabled="true"
-            ></provider>
 
     </application>
 

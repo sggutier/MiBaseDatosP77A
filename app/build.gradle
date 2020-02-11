@@ -4,7 +4,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "net.ivanvega.mibasedatosp77a"
+        applicationId "net.ivanvega.consoomer"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1

@@ -1,14 +1,12 @@
-package net.ivanvega.mibasedatosp77a;
+package net.ivanvega.consoomer;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,27 +14,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
     private ListView lv;
     private SimpleCursorAdapter adp;
-    DAOContactos dao ;
+    NeoDAO mNeoDAO;
     EditText txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dao = new DAOContactos(this);
+        mNeoDAO = new NeoDAO(this);
 
         lv = findViewById(R.id.lv);
 
@@ -47,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                                           Context context = view.getContext();
                                           Cursor cursor = (Cursor) lv.getItemAtPosition(pos);
                                           Intent intent = new Intent(context, ContactoActivity.class);
-                                          Contacto con = dao.inflaCursor(cursor);
+                                          Contacto con = mNeoDAO.inflaCursor(cursor);
                                           intent.putExtra("Creacion", con);
                                           ((AppCompatActivity) context).startActivityForResult(intent, con.getId() + 1);
                                       }
@@ -55,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                final Contacto contacto = dao.inflaCursor((Cursor) lv.getItemAtPosition(pos));
+                final Contacto contacto = mNeoDAO.inflaCursor((Cursor) lv.getItemAtPosition(pos));
                 Snackbar.make(view, "¿Estás seguro de borrar a " + contacto.getUsuario() + "?", Snackbar.LENGTH_LONG)
                     .setAction("Si", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            dao.delete(contacto.getId());
+                            mNeoDAO.delete(contacto.getId());
                             recargaAdaptador();
                         }
                     }).show();
@@ -81,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextChange(String query) {
-                        recargaAdaptadorConCursor(dao.getAllByUsuario(query));
+                        recargaAdaptadorConCursor(mNeoDAO.getAllByUsuario(query));
                         return false;
                     }
                     @Override
@@ -103,13 +97,11 @@ public class MainActivity extends AppCompatActivity {
                 SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
 
         );
-        DAOContactos dao = new DAOContactos(this);
-
         lv.setAdapter(adp);
     }
 
     private void recargaAdaptador() {
-        recargaAdaptadorConCursor(dao.getAllCursor());
+        recargaAdaptadorConCursor(mNeoDAO.getAllCursor());
     }
 
     public void anadeUsuario(View view) {
@@ -129,11 +121,11 @@ public class MainActivity extends AppCompatActivity {
             if(con != null) {
                 Log.e("Regreso", "boogaloo " + con.getUsuario() + " " + con.getEmail() + " " + con.getTel() + " " + (con.getFecNac()==null? "" : con.getFecNac().toString()));
                 if(requestCode == 0) {
-                    dao.insert(con);
+                    mNeoDAO.insert(con);
                 }
                 else {
                     con.setId(requestCode-1);
-                    dao.update(con);
+                    mNeoDAO.update(con);
                 }
             }
             else {
