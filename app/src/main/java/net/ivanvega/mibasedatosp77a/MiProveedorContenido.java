@@ -1,5 +1,6 @@
 package net.ivanvega.mibasedatosp77a;
 
+import android.app.IntentService;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -63,6 +64,9 @@ public class MiProveedorContenido extends ContentProvider {
             case 2:
                 c = mDAOContactos.getAllById(uri.getLastPathSegment());
                 break;
+            case 3:
+                c = mDAOContactos.getAllByUsuario(uri.getLastPathSegment());
+                break;
         }
 
         return c;
@@ -93,6 +97,8 @@ public class MiProveedorContenido extends ContentProvider {
         Long id  = null;
         switch (uriMatcher.match(uri)){
             case 1:
+            case 2:
+            case 3:
                 id = mDAOContactos.insert(contentValues);
                 break;
         }
@@ -104,22 +110,25 @@ public class MiProveedorContenido extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
         int delS = 0;
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
             case 1:
-                delS = mDAOContactos.deleteAll();
-                break;
             case 2:
-                delS = mDAOContactos.delete(Integer.parseInt(uri.getLastPathSegment()));
+            case 3:
+                delS = mDAOContactos.delete(Integer.parseInt(s));
                 break;
         }
         return delS;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String idS, @Nullable String[] strings) {
         int updS = 0;
-        switch (uriMatcher.match(uri)){
+        switch (uriMatcher.match(uri)) {
+            case 1:
+                updS = mDAOContactos.update(contentValues, Integer.parseInt(idS));
+                break;
             case 2:
+            case 3:
                 updS = mDAOContactos.update(contentValues, Integer.parseInt(uri.getLastPathSegment()));
                 break;
         }

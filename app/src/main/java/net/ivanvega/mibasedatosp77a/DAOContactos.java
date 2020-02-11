@@ -136,8 +136,8 @@ class DAOContactos {
         return _sqLiteDatabase.query(
                 MiDB.TABLE_NAME_CONTACTOS,
                 MiDB.COLUMNS_NAME_CONTACTO,
-                MiDB.COLUMNS_NAME_CONTACTO[1] + " like '%?%'",
-                new String[] {criterio},
+                MiDB.COLUMNS_NAME_CONTACTO[1] + " like '%" + criterio + "%'",
+                null,
                 null,
                 null,null
         );
