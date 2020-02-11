@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import androidx.annotation.Nullable;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,17 +41,29 @@ class DAOContactos {
         return contentValues;
     }
 
-    public void insert(Contacto contacto){
-        _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
-                null, createContentValues(contacto));
+    public Long insert(@Nullable ContentValues contentValues) {
+        return _sqLiteDatabase.insert(MiDB.TABLE_NAME_CONTACTOS,
+                null, contentValues);
     }
 
-    public void delete(final int id) {
-        _sqLiteDatabase.delete(MiDB.TABLE_NAME_CONTACTOS, MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + id, null);
+    public Long insert(Contacto contacto){
+        return this.insert(createContentValues(contacto));
     }
 
-    public void update(final Contacto contacto) {
-        _sqLiteDatabase.update(MiDB.TABLE_NAME_CONTACTOS, createContentValues(contacto), MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + contacto.getId(), null);
+    public int deleteAll() {
+        return _sqLiteDatabase.delete(MiDB.TABLE_NAME_CONTACTOS, null, null);
+    }
+
+    public int delete(final int id) {
+        return _sqLiteDatabase.delete(MiDB.TABLE_NAME_CONTACTOS, MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + id, null);
+    }
+
+    public int update(final ContentValues valr, final int id) {
+        return _sqLiteDatabase.update(MiDB.TABLE_NAME_CONTACTOS, valr, MiDB.COLUMNS_NAME_CONTACTO[0] + "=" + id, null);
+    }
+
+    public int update(final Contacto contacto) {
+        return this.update(createContentValues(contacto), contacto.getId());
     }
 
     public Contacto inflaCursor(Cursor c) {
@@ -103,14 +117,27 @@ class DAOContactos {
                 null);
     }
 
+    public Cursor getAllById(String id){
+        if(id.isEmpty())
+            return getAllCursor();
+        return _sqLiteDatabase.query(
+                MiDB.TABLE_NAME_CONTACTOS,
+                MiDB.COLUMNS_NAME_CONTACTO,
+                MiDB.COLUMNS_NAME_CONTACTO[1] + "=?",
+                new String[] {id},
+                null,
+                null,null
+        );
+    }
+
     public Cursor getAllByUsuario(String criterio){
         if(criterio.isEmpty())
             return getAllCursor();
         return _sqLiteDatabase.query(
                 MiDB.TABLE_NAME_CONTACTOS,
                 MiDB.COLUMNS_NAME_CONTACTO,
-                "usuario like '%" + criterio + "%'",
-                null,
+                MiDB.COLUMNS_NAME_CONTACTO[1] + " like '%?%'",
+                new String[] {criterio},
                 null,
                 null,null
         );

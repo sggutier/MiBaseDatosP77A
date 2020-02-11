@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactoActivity"></activity>
+        <activity android:name=".ContactoActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +25,7 @@
             android:authorities="net.ivanvega.mibasedatosp77a.provider"
             android:name=".MiProveedorContenido"
             android:exported="true"
-            android:enabled="true"
-            ></provider>
+            android:enabled="true" />
 
     </application>
 

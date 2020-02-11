@@ -12,9 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class MiProveedorContenido extends ContentProvider {
-    SQLiteDatabase  _sqliteDB ;
-    Context _ctx;
-
+    DAOContactos mDAOContactos;
 
     // Creates a UriMatcher object.
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -45,9 +43,7 @@ public class MiProveedorContenido extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-
-        _sqliteDB = new MiDB(this.getContext()).getWritableDatabase();
-
+        mDAOContactos = new DAOContactos(this.getContext());
         return false;
     }
 
@@ -55,38 +51,19 @@ public class MiProveedorContenido extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri,
                         @Nullable String[] projection,
-
                         @Nullable String selection,
                         @Nullable String[] selectionargs,
                         @Nullable String orderby) {
-
         Cursor c  = null;
-
 
         switch (uriMatcher.match(uri)){
             case 1:
-
-                c = _sqliteDB.query(MiDB.TABLE_NAME_CONTACTOS,
-                        projection,
-                        null,
-                        null,
-                        null,
-                        null, null );
+                c = mDAOContactos.getAllCursor();
                 break;
-
             case 2:
-
-
-
-                c =_sqliteDB.query(MiDB.TABLE_NAME_CONTACTOS ,
-                        projection,
-                        MiDB.COLUMNS_NAME_CONTACTO[0] + "=?",
-                        new String[]{uri.getLastPathSegment()},
-                        null,null,null
-                        );
+                c = mDAOContactos.getAllById(uri.getLastPathSegment());
                 break;
         }
-
 
         return c;
     }
@@ -94,9 +71,7 @@ public class MiProveedorContenido extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-
         String resul = "";
-
         switch (uriMatcher.match(uri)){
             case 1:
                 resul = "vnd.android.cursor.dir/vnd." +
@@ -104,51 +79,50 @@ public class MiProveedorContenido extends ContentProvider {
                 break;
 
             case 2:
-                resul = "vnd.android.cursor.item/vnd. " +
+                resul = "vnd.android.cursor.item/vnd." +
                         "net.ivanvega.mibasedatosp77a.provider.contactos";
                 break;
         }
-
-
-
-
         return resul;
-
-
-
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri,
                       @Nullable ContentValues contentValues) {
-
-
-
         Long id  = null;
-
-
         switch (uriMatcher.match(uri)){
             case 1:
-
-                id = _sqliteDB.insert(MiDB.TABLE_NAME_CONTACTOS,
-                        null, contentValues);
+                id = mDAOContactos.insert(contentValues);
                 break;
         }
-
-        return    Uri.parse(uri.toString()
+        return Uri.parse(uri.toString()
                 + "/" +
                 String.valueOf(id)) ;
-
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+        int delS = 0;
+        switch (uriMatcher.match(uri)){
+            case 1:
+                delS = mDAOContactos.deleteAll();
+                break;
+            case 2:
+                delS = mDAOContactos.delete(Integer.parseInt(uri.getLastPathSegment()));
+                break;
+        }
+        return delS;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+        int updS = 0;
+        switch (uriMatcher.match(uri)){
+            case 2:
+                updS = mDAOContactos.update(contentValues, Integer.parseInt(uri.getLastPathSegment()));
+                break;
+        }
+        return updS;
     }
 }
