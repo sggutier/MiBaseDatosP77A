@@ -20,6 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="net.ivanvega.mibasedatosp77a.provider"
+            android:name=".MiProveedorContenido"
+            android:exported="true"
+            android:enabled="true"
+            ></provider>
+
     </application>
 
 </manifest>

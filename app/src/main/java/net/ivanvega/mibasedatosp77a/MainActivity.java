@@ -16,6 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView lv;
     private SimpleCursorAdapter adp;
     DAOContactos dao ;
+    EditText txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
                 SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
 
         );
+        DAOContactos dao = new DAOContactos(this);
+
         lv.setAdapter(adp);
     }
 
